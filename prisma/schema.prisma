@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // no Neon, mantenha ?sslmode=require
+}
+
+model Licitacao {
+  id            String   @id @default(uuid())
+  orgao         String?
+  modalidade    String?
+  objeto        String?
+  uf            String?  @db.VarChar(2)
+  municipio     String?
+  valorEstimado Decimal? @db.Decimal(14, 2)
+  dataAbertura  DateTime?
+  fonte         String?
+  createdAt     DateTime @default(now())
+}
+
+model Interesse {
+  id           String   @id @default(uuid())
+  palavraChave String
+  uf           String   @db.VarChar(2)
+  email        String
+  createdAt    DateTime @default(now())
+}
