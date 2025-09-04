@@ -1,5 +1,3 @@
-# gov-licitacoes-api
-
 API para consulta de licitações públicas, construída como estudo de boas práticas de desenvolvimento de software.
 
 ## 🚀 Tecnologias
@@ -11,27 +9,12 @@ API para consulta de licitações públicas, construída como estudo de boas pr�
 - [Jest](https://jestjs.io/) + [Supertest](https://github.com/ladjs/supertest) para testes
 - ESLint + Prettier para linting e formatação
 
-## 📂 Estrutura do Projeto
-
-gov-licitacoes-api/
-├── src/
-│ ├── routes/
-│ ├── prisma/
-│ └── ...
-├── docs/
-│ └── adr/
-├── .gitignore
-├── LICENSE
-├── README.md
-└── package.json
-
 ## ⚙️ Como Rodar
 
 1. Clone o repositório:
-   ```bash
+
    git clone https://github.com/seu-usuario/gov-licitacoes-api.git
    cd gov-licitacoes-api
-   ```
 
 npm install
 
