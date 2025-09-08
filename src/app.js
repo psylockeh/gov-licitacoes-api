@@ -7,6 +7,7 @@ const logger = require("./libs/logger");
 const health = require("./routes/health");
 const status = require("./routes/status");
 const licitacoes = require("./routes/licitacoes");
+const sandbox = require("./routes/sandbox");
 
 const app = express();
 
@@ -14,7 +15,6 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-// request-id simples
 app.use((req, _res, next) => {
   req.requestId = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
   next();
@@ -24,11 +24,19 @@ app.use((req, _res, next) => {
 app.use(health);
 app.use(status);
 app.use(licitacoes);
+app.use(sandbox);
 
-// erro não tratado
 app.use((err, _req, res, _next) => {
   logger.error({ err }, "unhandled_error");
-  res.status(500).json({ code: "INTERNAL_ERROR", message: "Erro interno" });
+  const status = err.status || err.statusCode || 500;
+  const body = {
+    code: status >= 500 ? "INTERNAL_ERROR" : "BAD_REQUEST",
+    message: process.env.NODE_ENV === "production" && status >= 500 ? "Erro interno" : err.message,
+  };
+  if (process.env.NODE_ENV !== "production" && err.cause) {
+    body.details = err.cause;
+  }
+  res.status(status).json(body);
 });
 
 const port = process.env.PORT || 3000;
